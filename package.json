@@ -1,0 +1,25 @@
+{
+  "name": "kisaragi-bot",
+  "version": "1.0.0",
+  "description": "Kisaaaa",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rikidere/kisaragi.git"
+  },
+  "keywords": [
+    "discord"
+  ],
+  "author": "rikidere",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Rikidere/kisaragi/issues"
+  },
+  "homepage": "https://github.com/Rikidere/kisaragi#readme",
+  "dependencies": {
+    "discord.js": "^11.4.2"
+  }
+}
