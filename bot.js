@@ -1,8 +1,15 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const {default_prefix, token} = require('./config.json');
+const CommandHandler = require('./CommandHandler/CommandHandler');
+
+const ch = new CommandHandler();
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
+  console.log('Building Command Database ...');
+  ch.init();
+
 });
 
 client.on('message', msg => {
@@ -11,4 +18,4 @@ client.on('message', msg => {
   }
 });
 
-client.login('NTQ2MjkwMTc0MDcwNDg5MDk4.D0mEpA.lJCU485zUAr_8eUgMwoHInnLu_g');
+client.login(token);
