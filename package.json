@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/Rikidere/kisaragi#readme",
   "dependencies": {
-    "discord.js": "^11.4.2"
+    "discord.js": "^11.4.2",
+    "sequelize": "^4.42.0",
+    "sqlite3": "^4.0.6"
   }
 }
