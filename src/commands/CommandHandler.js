@@ -2,12 +2,14 @@ const fs = require('fs');
 
 class CommandHandler {
 
-    CommandHandler() {
+    constructor() {
     }
 
     init(args) {
-        const globalCommands = fs.readdirSync('./commands/global').filter(file => file.endsWith('.js'));
-        const commandDb;
+        //load global/static commands
+        const globalCommands = fs.readdirSync('./src/commands/static').filter(file => file.endsWith('.js'));
+        //load local commands
+        const localCommands; 
         console.log(globalCommands);
     }
 
