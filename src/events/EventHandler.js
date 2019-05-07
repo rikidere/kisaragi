@@ -1,6 +1,7 @@
 const fs = require('fs');
 /**
- *
+ * EventHandler initializes (all possible) events in ./static/${eventName} with their respective
+ * event type in ./static/ (this is mostly for checking)
  */
 class EventHandler {
     /**
@@ -9,23 +10,10 @@ class EventHandler {
      */
     constructor(){
         //read all event files
-        
-        
     }
     init(client, args){
-        const eventFiles = fs.readdirSync('./src/events/static').filter(file => file.endsWith('.js'));
-        this.events = [];
-        console.log(eventFiles);
-        //initialize all events and add to eventlist
-        for(const file of eventFiles){
-            console.log(file);
-            const Event = require(`./static/${file}`);
-            console.log(Event);
-            console.log(this.events);
-            const event = new Event(client);
-            this.events.push(event);
-        }
-        console.log(this.events);
+        //TODO just read and put all events in list (NOT THE TYPES)
+        
     }
     /**
      * starts the event listeners
