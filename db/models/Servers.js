@@ -27,11 +27,11 @@
  *      ...
  *
  *  */
-const { default_prefix, default_max_commands } = require('./config.json');
+const { default_prefix, default_max_commands } = require('../../config.json');
 
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('servers', {
-        server_id: { type: DataTypes.STRING,
+        id: { type: DataTypes.STRING,
             primaryKey: true
         },
         server_active: { type: DataTypes.BOOLEAN,
@@ -48,5 +48,7 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: 0
         }
 
+    }, {
+        underscored: true,
     });
 };

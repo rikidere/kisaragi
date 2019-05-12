@@ -30,7 +30,7 @@ class EventHandler {
             const event = require(`./static/${file}`);
             const eventI = new event(client);
             client.on(eventI.name, eventI.run);
-            console.log(`${eventI.name} listener started with name ${file}`);
+            console.log(`${eventI.name} listener started of function: ${file}`);
         }
     }
 }

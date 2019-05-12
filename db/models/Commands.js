@@ -32,17 +32,23 @@
 
  module.exports = (sequelize, DataTypes) => {
     return sequelize.define('commands', {
-        command_id: { type: DataTypes.UUID,
-        default_value: DataTypes.UUIDV1,
-        primary_key: true
+        id: { type: DataTypes.STRING,
+            primaryKey: true
         },
-        command_hash: { type: DataTypes.STRING
+        /*command_hash: { type: DataTypes.STRING
         },
         command_scope: { type: DataTypes.ENUM('LOCAL', 'GLOBAL'),
         default_value: 0
-        },
+        },*/
         command_enabled: { type: DataTypes.BOOLEAN,
         default_value: true
+        },
+
+        command_name: { type: DataTypes.STRING
+        },
+        command_text: { type: DataTypes.STRING
         }
+    }, {
+        underscored: true,
     });
  };
