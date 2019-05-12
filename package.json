@@ -21,6 +21,7 @@
   "homepage": "https://github.com/Rikidere/kisaragi#readme",
   "dependencies": {
     "discord.js": "^11.4.2",
+    "request-promise": "^4.2.4",
     "sequelize": ">=5.3.0",
     "sqlite3": "^4.0.7"
   }

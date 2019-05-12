@@ -1,8 +1,11 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
+
 const { default_prefix, token, dbUser, dbPassword } = require('./config.json');
 //const CommandHandler = require('./src/commands/CommandHandler');
 const EventHandler = require('./src/events/EventHandler');
+
+
 
 //const commandHandler = new CommandHandler();
 const eventHandler = new EventHandler();
