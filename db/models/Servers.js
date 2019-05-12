@@ -27,6 +27,12 @@
  *      ...
  *
  *  */
+
+ /**
+  * ===========================================================
+  * MAYBE USING STORING A SETTINGS JSON IS BETTER?
+  * ===========================================================
+  */
 const { default_prefix, default_max_commands } = require('../../config.json');
 
 module.exports = (sequelize, DataTypes) => {
