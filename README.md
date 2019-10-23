@@ -5,3 +5,5 @@ Kisaragi is a bot written in javascript using node.js and the discord.js layer t
 
 ## features
 Kisaragi should be a universal bot that allows highly customizable configurable commands and event listeners (such as welcome messages when a new member joins, streamer highlighting (via roles and/or announcements), and possibly a lot more)
+
+# Currently inactive
