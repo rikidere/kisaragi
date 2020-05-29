@@ -3,6 +3,7 @@ const winston = require('winston');
 const { isDevelopment, isLogging, loggingLevel, token, loggerFormatColor, loggerFormat } = require('./config');
 const client = new Discord.Client();
 
+
 const datetime = new Date().toISOString().slice(0, -5).replace(/T/gi, '_').replace(/:/gi, '-');
 const logger = winston.createLogger({
 	format: loggerFormat,
@@ -14,12 +15,22 @@ const logger = winston.createLogger({
 	] : [ new winston.transports.Console({ format : loggerFormatColor }) ]
 });
 
+/* Logging levels:
+error - errors
+warn - warnings
+info - initialization logging, synchronous stuff
+verbose - log events and actions
+debug - show even more information on actions and events
+silly - uwu?
+*/
+
+logger.verbose('Initiliazed logging ...');
+logger.verbose(`Logging to files ${isLogging ? 'ENABLED' : 'DISABLED'} with verbosity ${loggingLevel.toUpperCase()}`);
+logger.verbose(`Environment is ${isDevelopment ? 'DEVELOPMENT' : 'PRODUCTION'}`);
 
 client.on('ready', () => {
 	logger.log('info', `Logged in as ${client.user.tag}!`);
-	logger.log('error', 'test');
 });
-
 client.on('error', (e) => logger.log('error', e));
 client.on('warn', (w) => logger.log('warn', w));
 client.on('debug', (d) => logger.log('debug', d));
