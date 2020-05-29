@@ -3,6 +3,10 @@ const winston = require('winston');
 const colorizer = winston.format.colorize();
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const isLogging = isDevelopment ? process.argv.includes('--log') : true;
+const loggingLevel = process.argv.includes('--silly') ? 'silly' :
+	process.argv.includes('--debug') ? 'debug' :
+		process.argv.includes('--verbose') || process.argv.includes('-v') ? 'verbose' : 'info';
+
 const loggerFormatColor = winston.format.combine(
 	winston.format.simple(),
 	winston.format.label({
@@ -36,4 +40,4 @@ const loggerFormat = winston.format.combine(
 	)
 );
 
-module.exports = { isDevelopment, isLogging, token: process.env.DISCORD_TOKEN, loggerFormatColor, loggerFormat };
+module.exports = { isDevelopment, isLogging, loggingLevel, token: process.env.DISCORD_TOKEN, loggerFormatColor, loggerFormat };

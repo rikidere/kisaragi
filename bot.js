@@ -1,11 +1,12 @@
 const Discord = require('discord.js');
 const winston = require('winston');
-const { isDevelopment, isLogging, token, loggerFormatColor, loggerFormat } = require('./config');
+const { isDevelopment, isLogging, loggingLevel, token, loggerFormatColor, loggerFormat } = require('./config');
 const client = new Discord.Client();
 
 const datetime = new Date().toISOString().slice(0, -5).replace(/T/gi, '_').replace(/:/gi, '-');
 const logger = winston.createLogger({
 	format: loggerFormat,
+	level: loggingLevel,
 	transports: isLogging ? [
 		new winston.transports.Console({ format : loggerFormatColor }),
 		new winston.transports.File({ filename: `logs/logfile_${datetime}.log` }),

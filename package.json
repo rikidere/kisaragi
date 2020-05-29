@@ -5,7 +5,8 @@
   "main": "bot.js",
   "scripts": {
     "dev": "node -r dotenv/config bot.js",
-    "devlog": "node -r dotenv/config bot.js --log"
+	"devlog": "node -r dotenv/config bot.js --log",
+	"testlogger": "node -r dotenv/config test/testlogger.js"
   },
   "repository": {
     "type": "git",
