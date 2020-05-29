@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "node -r dotenv/config bot.js",
 	"devlog": "node -r dotenv/config bot.js --log",
-	"testlogger": "node -r dotenv/config test/testlogger.js"
+	"testmh": "node -r dotenv/config test/moduleHandlerTest.js",
+    "testlogger": "node -r dotenv/config test/testlogger.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "dotenv": "^8.2.0"
   }
 }
