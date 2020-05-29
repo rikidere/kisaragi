@@ -2,9 +2,10 @@
   "name": "kisaragi-bot",
   "version": "1.5.0",
   "description": "Kisaaaa",
-  "main": "index.js",
+  "main": "bot.js",
   "scripts": {
-    "test": "test"
+    "dev": "node -r dotenv/config bot.js",
+    "devlog": "node -r dotenv/config bot.js --log"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,11 @@
   },
   "homepage": "https://github.com/Rikidere/kisaragi#readme",
   "dependencies": {
-    "discord.js": "^11.4.2"
+    "discord.js": "^12.0.0",
+    "eslint": "^7.1.0",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
   }
 }

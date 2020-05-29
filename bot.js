@@ -1,26 +1,27 @@
 const Discord = require('discord.js');
+const winston = require('winston');
+const { isDevelopment, isLogging, token, loggerFormatColor, loggerFormat } = require('./config');
 const client = new Discord.Client();
 
-const { default_prefix, token, dbUser, dbPassword } = require('./config.json');
-//const CommandHandler = require('./src/commands/CommandHandler');
-const EventHandler = require('./src/events/EventHandler');
-
-
-
-//const commandHandler = new CommandHandler();
-const eventHandler = new EventHandler();
-client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
-  //console.log('Building Command Database ...');
-  //commandHandler.init();
-  eventHandler.init(client);
-
+const datetime = new Date().toISOString().slice(0, -5).replace(/T/gi, '_').replace(/:/gi, '-');
+const logger = winston.createLogger({
+	format: loggerFormat,
+	transports: isLogging ? [
+		new winston.transports.Console({ format : loggerFormatColor }),
+		new winston.transports.File({ filename: `logs/logfile_${datetime}.log` }),
+		new winston.transports.File({ filename: `logs/error/err_${datetime}.log`, level: 'error' })
+	] : [ new winston.transports.Console({ format : loggerFormatColor }) ]
 });
 
-//client.on('presenceUpdate', (oldMember, newMember) => console.log("test"));
-client.on('error', (e) => console.error(e));
-client.on('warn', (w) => console.warn(w));
-client.on('debug', (d) => console.info(d));
-client.on('message', (msg) => console.log("test2"));
+
+client.on('ready', () => {
+	logger.log('info', `Logged in as ${client.user.tag}!`);
+	logger.log('error', 'test');
+});
+
+client.on('error', (e) => logger.log('error', e));
+client.on('warn', (w) => logger.log('warn', w));
+client.on('debug', (d) => logger.log('debug', d));
+client.on('message', (m) => logger.log('info', m.content));
 
 client.login(token);
