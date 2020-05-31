@@ -40,4 +40,4 @@ const loggerFormat = winston.format.combine(
 	)
 );
 
-module.exports = { isDevelopment, isLogging, loggingLevel, token: process.env.DISCORD_TOKEN, loggerFormatColor, loggerFormat };
+module.exports = { isDevelopment, isLogging, loggingLevel, prefix: process.env.COMMAND_PREFIX, token: process.env.DISCORD_TOKEN, loggerFormatColor, loggerFormat };

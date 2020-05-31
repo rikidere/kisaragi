@@ -7,9 +7,14 @@
  */
 class Command {
 	get name() { throw new Error('command needs a name'); }
-	get shortDescprtion() { return ''; }
-	get longDescprtion() { return this.shortDescprtion; }
+	get shortDescription() { return ''; }
+	get longDescription() { return this.shortDescription; }
 	get usage() { return ''; }
+
+	constructor(client) {
+		if (!client) throw new Error('no client assigned to command');
+		this.client = client;
+	}
 	async run() {
 		throw new Error('command needs a run method');
 	}

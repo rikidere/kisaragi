@@ -5,10 +5,10 @@ const logger = winston.createLogger({
 	format: loggerFormat,
 	level: loggingLevel,
 	transports: isLogging ? [
-		new winston.transports.Console({ format : loggerFormatColor }),
-		new winston.transports.File({ filename: `logs/logfile_${datetime}.log` }),
-		new winston.transports.File({ filename: `logs/error/err_${datetime}.log`, level: 'error' })
-	] : [ new winston.transports.Console({ format : loggerFormatColor }) ]
+		new winston.transports.Console({ format: loggerFormatColor, handleExceptions: true }),
+		new winston.transports.File({ filename: `logs/logfile_${datetime}.log`, handleExceptions: true }),
+		new winston.transports.File({ filename: `logs/error/err_${datetime}.log`, level: 'error', handleExceptions: true })
+	] : [ new winston.transports.Console({ format : loggerFormatColor, handleExceptions: true }) ]
 });
 
 module.exports = logger;

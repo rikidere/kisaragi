@@ -16,6 +16,10 @@ class ModuleHandler {
 		return this;
 	}
 
+	init() {
+		// read module file, idk yet, load modules I guess
+		this.loadModule('commands');
+	}
 	loadModule(moduleName) {
 		if (!this.instance) throw new Error('ModuleHandler.loadModule(): ModuleHandler not initialized.');
 		if (!moduleName) throw new Error('ModuleHandler.loadModule(): no moduleName supplied.');
@@ -24,9 +28,9 @@ class ModuleHandler {
 		let module;
 		try {
 			const normalizedPath = path.join(__dirname, moduleName);
-			module = require(normalizedPath);
+			module = new (require(normalizedPath).module)(this.client);
 		} catch (e) {
-			return logger.error(`ModuleHandler.loadModule(): error occured while trying to load module folder: ${e}`);
+			return logger.error(`ModuleHandler.loadModule(): error occured while trying to load module ${moduleName}: ${e}`);
 		}
 		logger.verbose(`ModuleHandler.loadModule(): successfully acquired module ${moduleName}`);
 		this.modules.set(moduleName, module);
