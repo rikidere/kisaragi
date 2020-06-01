@@ -30,7 +30,8 @@ class ModuleHandler {
 			const normalizedPath = path.join(__dirname, moduleName);
 			module = new (require(normalizedPath).module)(this.client);
 		} catch (e) {
-			return logger.error(`ModuleHandler.loadModule(): error occured while trying to load module ${moduleName}: ${e}`);
+			logger.error(`ModuleHandler.loadModule(): error occured while trying to load module ${moduleName}: ${e}`);
+			throw Error(e);
 		}
 		logger.verbose(`ModuleHandler.loadModule(): successfully acquired module ${moduleName}`);
 		this.modules.set(moduleName, module);

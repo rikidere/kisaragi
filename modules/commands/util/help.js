@@ -4,11 +4,12 @@ const logger = require('../../../logger');
 
 class Help extends Command {
 	name = 'help';
-	shortDescprtion = 'displays this';
-	longDescprtion = 'displays information about the commands';
+	group = 'util';
+	shortDescription = 'displays this';
+	longDescription = 'displays information about the commands';
+
 	constructor(client) {
 		super(client);
-		console.log(this.shortDescprtion);
 	}
 	async run(msg, args) {
 		// obtain info about commands
@@ -18,7 +19,7 @@ class Help extends Command {
 		let message = [];
 		commands.forEach((commandGroup, groupName) => {
 			message.push(`**${groupName}**`);
-			commandGroup.forEach(command => message.push(`${command.name} - ${command.shortDescprtion}`));
+			commandGroup.forEach(command => message.push(`${command.name} - ${command.shortDescription}`));
 		});
 		msg.reply(message);
 	}

@@ -1,17 +1,31 @@
 const Command = require('../structures/Command');
 const ch = require('../commandHandler').instance;
 const logger = require('../../../logger');
-
 module.exports = class Reload extends Command {
 	name = 'reload';
-	shortDescprtion = 'reloads a command';
-	longDescprtion = 'unloads a command and loads the same command';
+	group = 'util';
+	shortDescription = 'reloads a command';
+	longDescription = 'unloads a command and loads the same command';
+	args = [
+		{
+			key: 'command',
+			validate: (command) => {
+				// check if command is loaded
+				if(ch.commands.has(command)) return;
+				throw new Error(`${command} is not loaded`);
+			},
+			parse: (command) => {
+				return ch.commands.get(command);
+			}
+
+		}
+	];
 	constructor(client) {
 		super(client);
-		console.log(this.shortDescprtion);
 	}
+
 	async run(msg, args) {
-		
-		msg.reply(message);
+		ch.reloadCommand(args.command);
+		msg.reply(`reloaded command ${args.command.name}`);
 	}
 }
