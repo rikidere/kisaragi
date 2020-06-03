@@ -80,7 +80,7 @@ class CommandHandler {
 	getCommandsByGroup() {
 		const commandsByGroup = new Map();
 		// initialize an entry in the map for each group name and an empty list as value
-		this.groups.forEach(group => commandsByGroup.set(group.name, []));
+		this.groups.forEach(group => commandsByGroup.set(group.path, []));
 		// get list for the group the command belongs to, push it on the list
 		this.commands.forEach((command) => {
 			const commandGroup = commandsByGroup.get(command.group);
@@ -101,10 +101,12 @@ class CommandHandler {
 	}
 
 	handle(msg) {
-		if (!msg.content.startsWith(this.prefix) || msg.author.bot) return;
+		logger.debug(`msg.content.startsWith(this.client.user.toString()) ${msg.content.startsWith(this.client.user.toString())}`);
+		logger.debug(this.client.user.toString());
+		if (!(msg.content.startsWith(this.prefix) || this.getUserFromMention(msg.content.split(/ +/)[0])) == this.client.user || msg.author.bot) return;
 		logger.debug('commandHandler.init(): message received with command prefix');
 
-		let args = msg.content.slice(this.prefix.length).split(/ +/);
+		let args = msg.content.startsWith(this.prefix) ? msg.content.slice(this.prefix.length).split(/ +/) : msg.content.split(/ +/).slice(1);
 		let command = args.shift();
 
 		if (!this.commands.has(command)) return logger.verbose(`no command found with name ${command}`);
@@ -124,7 +126,19 @@ class CommandHandler {
 		}
 	}
 
+	getUserFromMention(mention) {
+		if (!mention) return;
+		if (mention.startsWith('<@') && mention.endsWith('>')) {
+			mention = mention.slice(2, -1);
+			if (mention.startsWith('!')) {
+				mention = mention.slice(1);
+			}
+			return this.client.users.cache.get(mention);
+		}
+	}
 
 }
+
+
 
 module.exports = CommandHandler;

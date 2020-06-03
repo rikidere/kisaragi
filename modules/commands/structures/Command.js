@@ -5,6 +5,7 @@ const logger = require('../../../logger');
  * @property {string} [shortDescription = ''] - the short description of a command (when using !help), defaults to none
  * @property {string} [longDescription = shortDescription] - the long description of a command (when using !help <command>), defaults to the short description
  * @property {string} [usage - ''] - how the command should be used, default
+ * @property {Array[string]} [guilds - ''] - how the command should be used, default
  * @function {void} run - executed when command is called
  */
 class Command {
@@ -12,7 +13,17 @@ class Command {
 	get group() { throw new Error('command needs a group'); }
 	get shortDescription() { return ''; }
 	get longDescription() { return this.shortDescription; }
-	get usage() { return ''; }
+	// generate usage string
+	get usage() {
+		let usage = `${this.name}`;
+		this.args.forEach(arg => usage = usage.concat(arg.default || arg.default === '' ? ` [, <${arg.default === ''  ? arg.key : `${arg.key}=${arg.default}`}>]` : ` <${arg.key}>`));
+		return usage;
+	}
+	// setting guilds will make the command the command runnable in guild only, guild ids
+	get guilds() { return []; }
+	// if there are guilds set, the command is guild only by default and if no guilds are set default is false
+	get guildOnly() { return this.guilds.length > 0 ? true : false; }
+
 	// args handling, see discord.js-commando, every arg gets an object
 	get args() {
 		return [];
@@ -22,6 +33,7 @@ class Command {
 			{
 				key: string, - used when parsing, required
 				multiple: boolean, - default: false - parses the rest of the arguments as one string
+				default: '', - default makes the arg optional
 				validate: (arg) => validateTheArg() => void, - default, none
 				parse: (arg) => parseTheArg() => parsedArg, - default, none
 			}
@@ -34,9 +46,11 @@ class Command {
 	}
 	// validate args
 	validate(args) {
-		if(!this.args && args) throw new Error('ValidationError: command takes no args');
+		if(!this.args && args.length > 0) throw new Error('ValidationError: command takes no args');
 		this.args.forEach(arg => {
-			if(!args) throw new Error('ValidationError: not enough arguments');
+			if(!(args.length > 0 || arg.default || arg.default === '')) throw new Error('ValidationError: not enough arguments');
+			// if there are no args, there has to be arg.default
+			if(!(args.length > 0)) return;
 			// multiple extends to the end of the args, so the entirety of args has to be validated
 			try {
 				if(arg.multiple) {
@@ -60,6 +74,10 @@ class Command {
 	parse(args) {
 		const newArgs = {};
 		this.args.forEach(arg => {
+			if(!args) {
+				newArgs[arg.key] = arg.default;
+				return;
+			}
 			if(arg.multiple) {
 				let currentArg = args.join();
 				if (arg.parse) currentArg = arg.parse(currentArg);
@@ -75,10 +93,24 @@ class Command {
 		});
 		return newArgs;
 	}
+	// check guildOnly, guilds
+	isRunnable(msg) {
+		if(!this.guildOnly) return true;
+		// msg has to be sent in a guild
+		if(msg.channel.type !== 'text') return false;
+		// in case a few guilds are set, check if message was sent in one of them
+		if(this.guilds.length > 0 && (this.guilds.includes(msg.channel.guild.id))) return true;
+		return false;
+	}
+
+	// check user permissions
+	hasPermission(msg) {
+		// check user permissions
+	}
+
 	async run() {
 		throw new Error('command needs a run method');
 	}
-
 }
 
 module.exports = Command;

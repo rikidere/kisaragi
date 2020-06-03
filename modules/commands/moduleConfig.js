@@ -3,6 +3,9 @@ module.exports = {
 	groups: [
 		{
 			path: 'util', name: 'util'
+		},
+		{
+			path: 'osc', name: 'osu! swiss community'
 		}
 	]
 };
