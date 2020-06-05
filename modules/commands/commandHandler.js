@@ -112,7 +112,9 @@ class CommandHandler {
 		if (!this.commands.has(command)) return logger.verbose(`no command found with name ${command}`);
 		command = this.commands.get(command);
 		try {
-			logger.debug('test');
+			// command has to be available (enabled) > runnable > permission
+			if(!command.isRunnable(msg)) return msg.reply('command cannot be run in this channel');
+			if(!command.hasPermission(msg)) return msg.reply('you do not have the permission to run this command');
 			logger.debug(args.length);
 			command.validate(args.slice(0));
 			logger.debug(args.length);
@@ -121,8 +123,11 @@ class CommandHandler {
 			logger.debug(JSON.stringify(args));
 			command.run(msg, args);
 		} catch (e) {
-			logger.error(`CommandHandler: error occured while trying to run command with name ${command.name}: ${e}`);
-			msg.reply('an error has occured while running the command');
+			const reply = [];
+			logger.warn(`CommandHandler: error occured while trying to run command with name ${command.name}: ${e}`);
+			reply.push(`an error has occured while running the command: ${e}`);
+			reply.push(`see \`${this.prefix}${command.usage}\``);
+			msg.reply(reply);
 		}
 	}
 

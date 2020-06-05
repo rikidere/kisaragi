@@ -15,7 +15,7 @@ module.exports = class Ctb extends Command {
 	async run(msg, args) {
 
 		if(!this.isRunnable(msg)) msg.reply('message cannot be run here');
-		msg.reply('ctb');
+		msg.reply('this is a test');
 	}
 };
 

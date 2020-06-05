@@ -6,6 +6,8 @@ module.exports = class Reload extends Command {
 	group = 'util';
 	shortDescription = 'reloads a command';
 	longDescription = 'unloads a command and loads the same command';
+	permission = ['ADMINISTRATOR'];
+	ownerOnly = true;
 	args = [
 		{
 			key: 'command',

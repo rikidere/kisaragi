@@ -1,5 +1,5 @@
 const logger = require('../../../logger');
-
+const { owner } = require('../../../config');
 /**
  * @property {string} name - the name of the command, needed
  * @property {string} [shortDescription = ''] - the short description of a command (when using !help), defaults to none
@@ -16,14 +16,20 @@ class Command {
 	// generate usage string
 	get usage() {
 		let usage = `${this.name}`;
-		this.args.forEach(arg => usage = usage.concat(arg.default || arg.default === '' ? ` [, <${arg.default === ''  ? arg.key : `${arg.key}=${arg.default}`}>]` : ` <${arg.key}>`));
+		this.args.forEach(arg => usage = usage.concat(arg.default || arg.default === '' ? ` [, <${arg.default === '' ? arg.key : `${arg.key}=${arg.default}`}>]` : ` <${arg.key}>`));
 		return usage;
 	}
 	// setting guilds will make the command the command runnable in guild only, guild ids
 	get guilds() { return []; }
 	// if there are guilds set, the command is guild only by default and if no guilds are set default is false
 	get guildOnly() { return this.guilds.length > 0 ? true : false; }
-
+	get ownerOnly() {
+		return false;
+	}
+	get permission() {
+		// OWNER will ignore all other permissions
+		return [];
+	}
 	// args handling, see discord.js-commando, every arg gets an object
 	get args() {
 		return [];
@@ -34,6 +40,7 @@ class Command {
 				key: string, - used when parsing, required
 				multiple: boolean, - default: false - parses the rest of the arguments as one string
 				default: '', - default makes the arg optional
+				permission: '', - idk if this will be needed
 				validate: (arg) => validateTheArg() => void, - default, none
 				parse: (arg) => parseTheArg() => parsedArg, - default, none
 			}
@@ -93,7 +100,7 @@ class Command {
 		});
 		return newArgs;
 	}
-	// check guildOnly, guilds
+	// check guildOnly, guilds etc ...
 	isRunnable(msg) {
 		if(!this.guildOnly) return true;
 		// msg has to be sent in a guild
@@ -106,6 +113,17 @@ class Command {
 	// check user permissions
 	hasPermission(msg) {
 		// check user permissions
+		const user = msg.author;
+		if (user.id === owner) return true;
+		// early exit if command is owner only and user is not owner
+		if (this.ownerOnly) return false;
+		// if msg wasn't sent in a guild, msg.member is undefined and no further permissions are required
+		const member = msg.member;
+		if (!member) return true;
+		// no permissions needed to run command
+		if	(!this.permission) return true;
+		return member.hasPermission(this.permission);
+
 	}
 
 	async run() {
