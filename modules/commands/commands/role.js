@@ -51,7 +51,7 @@ module.exports = class Role extends Command {
 				logger.debug(roleName);
 				const guildRole = guild.roles.cache.find((role) => role.name.toLowerCase() == roleName.toLowerCase());
 				if(!guildRole) {
-					reply.push(`\`${roleName}\` not found`);
+					reply.push(`\`${roleName}\` not found, see \`role list\` for a list of available roles`);
 					break;
 				}
 				if(!roles.includes(guildRole.id)) {
