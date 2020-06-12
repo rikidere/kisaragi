@@ -24,16 +24,16 @@ logger.verbose('Created module handler');
 client.on('ready', () => {
 	logger.verbose('Client ready');
 	logger.log('info', `Logged in as ${client.user.tag}!`);
-
+	client.user.setActivity('starting up');
 	// initialize modules
 	logger.verbose('Initializing ModuleHandler...');
 	mh.init();
 	logger.verbose('Initialized ModuleHandler');
+	client.user.setActivity('beta - !help');
 });
 
 client.on('error', (e) => logger.log('error', e));
 client.on('warn', (w) => logger.log('warn', w));
 client.on('debug', (d) => logger.log('debug', d));
-client.on('message', (m) => logger.log('info', m.content));
 
 client.login(token);
