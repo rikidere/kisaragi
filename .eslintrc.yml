@@ -28,6 +28,7 @@ rules:
   indent:
   - error
   - tab
+  - SwitchCase: 1
   max-nested-callbacks:
   - error
   - max: 4

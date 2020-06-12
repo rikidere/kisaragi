@@ -81,12 +81,12 @@ class Command {
 	parse(args) {
 		const newArgs = {};
 		this.args.forEach(arg => {
-			if(!args) {
+			if(args.length == 0) {
 				newArgs[arg.key] = arg.default;
 				return;
 			}
 			if(arg.multiple) {
-				let currentArg = args.join();
+				let currentArg = args.join(' ');
 				if (arg.parse) currentArg = arg.parse(currentArg);
 				newArgs[arg.key] = currentArg;
 				return;

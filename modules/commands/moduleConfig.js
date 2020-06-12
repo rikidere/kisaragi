@@ -6,6 +6,9 @@ module.exports = {
 		},
 		{
 			path: 'osc', name: 'osu! swiss community'
+		},
+		{
+			path: 'commands', name: 'general commands'
 		}
 	]
 };
