@@ -101,10 +101,13 @@ class CommandHandler {
 	}
 
 	handle(msg) {
-		logger.debug(`msg.content.startsWith(this.client.user.toString()) ${msg.content.startsWith(this.client.user.toString())}`);
 		logger.debug(this.client.user.toString());
-		if (!(msg.content.startsWith(this.prefix) || this.getUserFromMention(msg.content.split(/ +/)[0])) == this.client.user || msg.author.bot) return;
+		logger.debug(`prefix: ${msg.content.startsWith(this.prefix)}`);
+		logger.debug(`mention: ${this.getUserFromMention(msg.content.split(/ +/)[0]) == this.client.user}`);
+		if (!(msg.content.startsWith(this.prefix) || this.getUserFromMention(msg.content.split(/ +/)[0]) == this.client.user) || msg.author.bot) return;
+		
 		logger.debug('commandHandler.init(): message received with command prefix');
+		
 
 		let args = msg.content.startsWith(this.prefix) ? msg.content.slice(this.prefix.length).split(/ +/) : msg.content.split(/ +/).slice(1);
 		let command = args.shift();
