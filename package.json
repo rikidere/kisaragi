@@ -4,10 +4,10 @@
   "description": "Kisaaaa",
   "main": "bot.js",
   "scripts": {
-	"production": "node -r dotenv/config bot.js",
+    "production": "node -r dotenv/config bot.js",
     "dev": "node -r dotenv/config bot.js",
-	"devlog": "node -r dotenv/config bot.js --log",
-	"testmh": "node -r dotenv/config test/moduleHandlerTest.js",
+    "devlog": "node -r dotenv/config bot.js --log",
+    "testmh": "node -r dotenv/config test/moduleHandlerTest.js",
     "testlogger": "node -r dotenv/config test/testlogger.js"
   },
   "repository": {
