@@ -42,24 +42,22 @@ client.on("presenceUpdate", (oldPresence, newPresence) => {
 	var member = newPresence.member;
 	var streamerRole = newPresence.guild.roles.cache.find(val => val.name === "Streamers");
 	if(!streamerRole) return;
-
+	var streaming = false;
 	// add the role when not added when streaming
     if (!newPresence.activities) return false;
     newPresence.activities.forEach(activity => {
         if (activity.type == "STREAMING") {
 			logger.debug(`Added Streamer role to ${newPresence.user.tag}`);
 			if(!member.roles.cache.has(streamerRole.id)) return member.roles.add(streamerRole);
+			streaming = true;
         };
 	});
 
 	// remove the role when added when not streaming
-	if (!oldPresence.activities) return false;
-    newPresence.activities.forEach(activity => {
-        if (activity.type == "STREAMING") {
-			logger.debug(`Removed Streamer role from ${newPresence.user.tag}`);
-			if(member.roles.cache.has(streamerRole.id)) return member.roles.remove(streamerRole);
-        };
-    });
+    if (!streaming) {
+		logger.debug(`Removed Streamer role from ${newPresence.user.tag}`);
+		if(member.roles.cache.has(streamerRole.id)) return member.roles.remove(streamerRole);
+    }
 });
 
 client.on('error', (e) => logger.log('error', e));
