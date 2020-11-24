@@ -32,6 +32,36 @@ client.on('ready', () => {
 	client.user.setActivity('beta - !help');
 });
 
+/* 
+temporary streamer role fix
+ */
+streamerAllowedGuilds = ['411858955137187851', '124944592922476546']
+client.on("presenceUpdate", (oldPresence, newPresence) => {
+	// check if allowed guild
+	if (!streamerAllowedGuilds.includes(newPresence.guild.id)) return;
+	var member = newPresence.member;
+	var streamerRole = newPresence.guild.roles.cache.find(val => val.name === "Streamers");
+	if(!streamerRole) return;
+
+	// add the role when not added when streaming
+    if (!newPresence.activities) return false;
+    newPresence.activities.forEach(activity => {
+        if (activity.type == "STREAMING") {
+			logger.debug(`Added Streamer role to ${newPresence.user.tag}`);
+			if(!member.roles.cache.has(streamerRole.id)) return member.roles.add(streamerRole);
+        };
+	});
+
+	// remove the role when added when not streaming
+	if (!oldPresence.activities) return false;
+    newPresence.activities.forEach(activity => {
+        if (activity.type == "STREAMING") {
+			logger.debug(`Removed Streamer role from ${newPresence.user.tag}`);
+			if(member.roles.cache.has(streamerRole.id)) return member.roles.remove(streamerRole);
+        };
+    });
+});
+
 client.on('error', (e) => logger.log('error', e));
 client.on('warn', (w) => logger.log('warn', w));
 client.on('debug', (d) => logger.log('debug', d));
